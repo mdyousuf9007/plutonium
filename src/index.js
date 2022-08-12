@@ -41,7 +41,7 @@ res.send({data:missingNumber})
  
  
 
-app.listen(process.env.PORT || 3002, function() {
-    console.log('Express app running on port ' + (process.env.PORT || 3002))
+app.listen(process.env.PORT || 3001, function() {
+    console.log('Express app running on port ' + (process.env.PORT || 3001))
 });
 
