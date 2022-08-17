@@ -1,14 +1,6 @@
 const { count } = require("console")
+const bookModel = require("../models/bookModel")
 const BookModel= require("../models/bookModel")
-
-const createBook= async function (req, res) {
-    let data= req.body
-
-    let savedData= await BookModel.create(data)
-    res.send({msg: savedData})
-}
-
-const getBooksData= async function (req, res) {
 
     // let allBooks= await BookModel.find( ).count() // COUNT
 
@@ -67,19 +59,56 @@ const getBooksData= async function (req, res) {
     
     let a= 2+4
     a= a + 10
-    console.log(a)
-    let allBooks= await BookModel.find( )  //normally this is an asynchronous call..but await makes it synchronous
+   // console.log(a)
+  //  let allBooks= await BookModel.find( )  //normally this is an asynchronous call..but await makes it synchronous
 
 
     // WHEN AWAIT IS USED: - database + axios
     //  AWAIT can not be used inside forEach , map and many of the array functions..BE CAREFUL
-    console.log(allBooks)
+   // console.log(allBooks)
     let b = 14
     b= b+ 10
-    console.log(b)
-    res.send({msg: allBooks})
+   // console.log(b)
+  //  res.send({msg: allBooks})
+          //Q=1
+  const createBook= async function (req, res) {
+    let data= req.body
+    let savedData= await BookModel.create(data)
+    res.send({msg: savedData})
+}
+          //Q=2
+const bookList= async function (req, res) {
+    let allBooks=await bookModel.find().select({BookName:1,AuthorName:1,_id:0})
+    res.send({msg:allBooks})
+
+}
+      //Q=3
+const getBooksInYear =async function(req,res){
+    let allbooksInYear=await bookModel.find({Year: {$eq:req.body.Year}})
+    res.send({msg:allbooksInYear})
+}
+
+      //Q=4
+const getParticularBooks= async function(req,res){
+    let book=await BookModel.find(req.body)
+    res.send({msg:book})
+}
+    //Q=5
+const getXINRBooks =async function(req,res){
+    let indianBooks=await bookModel.find({"prices.indianPrice" : {$in:["100", "200","500"]}} )
+    res.send({msg:indianBooks})
+}
+    //Q=6
+const getRandomBooks= async function(req,res){
+    let randomBooks=await bookModel.find({ $or:[{StockAvailable:true},{TotalPages:{$gt:500}}]})
+    res.send({msg:randomBooks})
 }
 
 
+
 module.exports.createBook= createBook
-module.exports.getBooksData= getBooksData
+module.exports.bookList=bookList
+module.exports.getBooksInYear =getBooksInYear 
+module.exports.getParticularBooks= getParticularBooks
+module.exports. getXINRBooks= getXINRBooks
+module.exports.getRandomBooks=getRandomBooks
