@@ -5,8 +5,7 @@ const isValidEmail = function (data) {
   return emailRegex.test(data);
 };
 const isMobileNumber = function (data) {
-  const mobileRegex =
-    /^([9876]{1})([0-9]{1})([0-9]{8})$/;
+  const mobileRegex = /^([9876]{1})([0-9]{1})([0-9]{8})$/;
   return mobileRegex.test(data);
 };
 const isValidString = function (data) {
@@ -16,11 +15,10 @@ const isValidString = function (data) {
   return true;
 };
 
-const checkNumbersInString= function(data){
-  const checkNumbersInStringRegex =
-    /^[a-zA-Z ]*$/;
+const checkNumbersInString = function (data) {
+  const checkNumbersInStringRegex = /^[a-zA-Z ]*$/;
   return checkNumbersInStringRegex.test(data);
-}
+};
 
 const createIntern = async function (req, res) {
   try {
@@ -85,10 +83,16 @@ const createIntern = async function (req, res) {
     }
 
     let collegeData = await collegeModel.findOne({
-      $or:[{name: data.collegeName.trim()},{fullName:data.collegeName.trim()}],
+      $or: [
+        { name: data.collegeName.trim() },
+        { fullName: data.collegeName.trim() },
+      ],
     });
+
     if (!collegeData) {
-      return res.status(404).send({ status: false, msg: "no such clg with the give collegeName" });
+      return res
+        .status(404)
+        .send({ status: false, msg: "no such clg with the give collegeName" });
     }
     data.collegeId = collegeData._id;
     delete data["collegeName"];

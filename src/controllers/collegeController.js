@@ -21,13 +21,13 @@ const checkNumbersInString= function(data){
 }
 
 const createCollege = async function (req, res) {
-  try {
+  try {    
     // Checking if the request body is empty or not
     if (Object.keys(req.body).length === 0)
       return res.status(400).send({ status: false, msg: "Required data" });
 
     const requiredFields = ["name", "fullName", "logoLink"];
-
+     
     // Checking if the required fields are present or not
     for (field of requiredFields) {
       if (!req["body"].hasOwnProperty(field))
@@ -106,6 +106,7 @@ async function getInterns(req, res) {
         .send({ status: false, msg: "please provide collegeName" });
     }
     //Checking if there is no filters other than the specified
+    
     for (key in data) {
       if (!["collegeName"].includes(key)) {
         return res
